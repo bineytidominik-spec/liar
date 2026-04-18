@@ -33,7 +33,7 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
       <div className="bg-stone-900/40 p-5 mb-6 space-y-3">
         <div>
           <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-1">Der Hochstapler war</div>
-          <div className="font-display text-2xl font-bold text-red-500">{imposterName}</div>
+          <div className="font-display text-2xl font-bold text-red-500 break-words">{imposterName}</div>
         </div>
         <div>
           <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-1">Das Wort</div>

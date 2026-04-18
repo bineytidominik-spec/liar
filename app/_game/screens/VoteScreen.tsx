@@ -12,7 +12,7 @@ export function VoteScreen({ voter, candidates, onVote, idx, total }: {
       <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2">
         Stimme {idx + 1} von {total}
       </div>
-      <h2 className="font-display text-2xl font-bold mb-2">
+      <h2 className="font-display text-2xl font-bold mb-2 break-words">
         <span className="text-red-500">{voter}</span>, wen verdächtigst du?
       </h2>
       <p className="text-stone-400 text-sm mb-6 italic">Handy wandert weiter — einer nach dem anderen.</p>
