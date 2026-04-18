@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useGameState } from './hooks/useGameState';
 import { useHaptic } from './hooks/useHaptic';
 import { useSound } from './hooks/useSound';
@@ -18,6 +19,16 @@ export default function HochstaplerApp() {
   const g = useGameState();
   const haptic = useHaptic();
   const sound = useSound();
+
+  const activePhases: string[] = [PHASE.HANDOFF, PHASE.REVEAL, PHASE.DISCUSSION, PHASE.VOTE, PHASE.RESULT];
+  const isInRound = activePhases.includes(g.phase);
+
+  useEffect(() => {
+    if (!isInRound) return;
+    const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [isInRound]);
 
   const handleFlip = () => { haptic.tap(); g.flipCard(); };
   const handleFlipBack = () => { haptic.tap(); g.flipCardBack(); };
