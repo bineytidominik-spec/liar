@@ -77,6 +77,7 @@ export default function HochstaplerApp() {
               onStart={g.startRound}
               soundEnabled={sound.enabled}
               onToggleSound={sound.toggle}
+              playerCount={g.players.length}
             />
           )}
 

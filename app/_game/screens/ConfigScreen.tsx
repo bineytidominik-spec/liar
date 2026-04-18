@@ -10,10 +10,11 @@ export function ConfigScreen({
   customWords, setCustomWords, imposterMode, setImposterMode,
   discussionMinutes, setDiscussionMinutes,
   poolSize, unplayedCount, onResetHistory, onBack, onStart,
-  soundEnabled, onToggleSound,
+  soundEnabled, onToggleSound, playerCount,
 }: {
   soundEnabled: boolean;
   onToggleSound: () => void;
+  playerCount: number;
   wordSource: WordSource;
   setWordSource: (v: WordSource) => void;
   selectedCategories: Category[];
@@ -114,6 +115,11 @@ export function ConfigScreen({
               ))}
             </div>
           )}
+          {imposterMode === 'similar' && customWords.some(w => w.associations.length === 0) && (
+            <div className="mt-2 text-[10px] font-mono-game text-yellow-500/80">
+              ⚠ Einige Wörter haben keine Assoziationen — im Assoziation-Modus wird nichts angezeigt.
+            </div>
+          )}
         </section>
       )}
 
@@ -128,6 +134,11 @@ export function ConfigScreen({
             </button>
           ))}
         </div>
+        {imposterMode === 'similar' && playerCount <= 3 && (
+          <div className="mt-2 text-[10px] font-mono-game text-yellow-500/80">
+            ⚠ Bei 3 Spielern ist der Assoziations-Hinweis sehr stark.
+          </div>
+        )}
       </section>
 
       <section>
