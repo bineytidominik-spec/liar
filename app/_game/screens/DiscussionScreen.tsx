@@ -29,7 +29,7 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
       <h2 className="font-display text-2xl font-bold mb-8">Diskussion.</h2>
 
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className={`font-display text-8xl font-black italic tabular-nums mb-4 ${isOver ? 'text-red-500 pulse-soft' : 'text-stone-100'}`}>
+        <div className={`font-display text-[clamp(4rem,20vw,8rem)] font-black italic tabular-nums mb-4 ${isOver ? 'text-red-500 pulse-soft' : 'text-stone-100'}`}>
           {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
         </div>
         <div className="font-mono-game text-xs uppercase tracking-[0.3em] text-stone-500 mb-10">
