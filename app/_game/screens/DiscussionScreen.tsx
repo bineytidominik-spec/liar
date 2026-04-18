@@ -1,12 +1,24 @@
 'use client';
 
-export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote }: {
+import { useEffect, useRef } from 'react';
+
+export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote, onTick }: {
   timeLeft: number;
   running: boolean;
   onToggle: () => void;
   onReset: () => void;
   onVote: () => void;
+  onTick: () => void;
 }) {
+  const prevTimeLeft = useRef(timeLeft);
+
+  useEffect(() => {
+    // Play tick sound each second during the last minute
+    if (running && timeLeft > 0 && timeLeft <= 60 && timeLeft !== prevTimeLeft.current) {
+      onTick();
+    }
+    prevTimeLeft.current = timeLeft;
+  }, [timeLeft, running, onTick]);
   const mins = Math.floor(timeLeft / 60);
   const secs = timeLeft % 60;
   const isOver = timeLeft === 0 && !running;

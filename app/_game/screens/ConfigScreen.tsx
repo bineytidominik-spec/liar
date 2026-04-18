@@ -10,7 +10,10 @@ export function ConfigScreen({
   customWords, setCustomWords, imposterMode, setImposterMode,
   discussionMinutes, setDiscussionMinutes,
   poolSize, unplayedCount, onResetHistory, onBack, onStart,
+  soundEnabled, onToggleSound,
 }: {
+  soundEnabled: boolean;
+  onToggleSound: () => void;
   wordSource: WordSource;
   setWordSource: (v: WordSource) => void;
   selectedCategories: Category[];
@@ -137,6 +140,16 @@ export function ConfigScreen({
             </button>
           ))}
         </div>
+      </section>
+
+      <section>
+        <div className="font-mono-game text-xs uppercase tracking-wider text-stone-400 mb-2">Sound</div>
+        <button
+          onClick={onToggleSound}
+          className={`px-4 py-2 font-mono-game text-xs uppercase tracking-wider transition-all ${soundEnabled ? 'bg-stone-100 text-stone-900' : 'bg-stone-900/60 border border-stone-800 text-stone-400'}`}
+        >
+          {soundEnabled ? '♪ An' : '♪ Aus'}
+        </button>
       </section>
 
       <div className="flex gap-2 pt-4">

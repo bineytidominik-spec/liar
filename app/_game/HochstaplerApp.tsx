@@ -1,6 +1,8 @@
 'use client';
 
 import { useGameState } from './hooks/useGameState';
+import { useHaptic } from './hooks/useHaptic';
+import { useSound } from './hooks/useSound';
 import { PHASE } from './types';
 import { SetupScreen } from './screens/SetupScreen';
 import { PlayersScreen } from './screens/PlayersScreen';
@@ -14,6 +16,13 @@ import { ScoreboardScreen } from './screens/ScoreboardScreen';
 
 export default function HochstaplerApp() {
   const g = useGameState();
+  const haptic = useHaptic();
+  const sound = useSound();
+
+  const handleFlip = () => { haptic.tap(); g.flipCard(); };
+  const handleFlipBack = () => { haptic.tap(); g.flipCardBack(); };
+  const handleVote = (name: string) => { haptic.confirm(); g.submitVote(name); };
+  const handleScoring = () => { haptic.finale(); sound.reveal(); g.applyScoring(); };
 
   return (
     <div className="min-h-screen w-full bg-[#0a0a0f] text-stone-100 relative overflow-hidden">
@@ -66,6 +75,8 @@ export default function HochstaplerApp() {
               onResetHistory={g.resetPlayedWords}
               onBack={g.goToPlayers}
               onStart={g.startRound}
+              soundEnabled={sound.enabled}
+              onToggleSound={sound.toggle}
             />
           )}
 
@@ -85,8 +96,8 @@ export default function HochstaplerApp() {
               word={g.currentWord}
               imposterMode={g.imposterMode}
               flipped={g.cardFlipped}
-              onFlip={g.flipCard}
-              onFlipBack={g.flipCardBack}
+              onFlip={handleFlip}
+              onFlipBack={handleFlipBack}
               turnIdx={g.currentTurnIdx}
               total={g.players.length}
             />
@@ -99,6 +110,7 @@ export default function HochstaplerApp() {
               onToggle={g.timer.toggle}
               onReset={() => g.timer.reset(g.discussionMinutes * 60)}
               onVote={g.startVoting}
+              onTick={sound.tick}
             />
           )}
 
@@ -106,7 +118,7 @@ export default function HochstaplerApp() {
             <VoteScreen
               voter={g.players[g.currentVoterIdx]}
               candidates={g.players}
-              onVote={g.submitVote}
+              onVote={handleVote}
               idx={g.currentVoterIdx}
               total={g.players.length}
             />
@@ -119,7 +131,7 @@ export default function HochstaplerApp() {
               imposterMode={g.imposterMode}
               imposterGuess={g.imposterGuess}
               setImposterGuess={g.setImposterGuess}
-              onContinue={g.applyScoring}
+              onContinue={handleScoring}
             />
           )}
 
