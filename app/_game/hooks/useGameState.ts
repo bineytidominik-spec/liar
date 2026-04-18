@@ -207,14 +207,16 @@ export function useGameState(): GameState {
   };
 
   const applyScoring = () => {
-    const { imposterCaught } = computeResult();
+    const { imposterCaught, topVoted } = computeResult();
+    const isTie = !imposterCaught && topVoted.length > 1;
     const next = { ...scores };
     if (imposterCaught) {
       players.forEach(p => { if (p !== imposterName) next[p] = (next[p] || 0) + 1; });
       if (imposterGuess && imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase())
         next[imposterName!] = (next[imposterName!] || 0) + 1;
     } else {
-      next[imposterName!] = (next[imposterName!] || 0) + 2;
+      // 1 point on tie (no majority), 2 points if fully undetected
+      next[imposterName!] = (next[imposterName!] || 0) + (isTie ? 1 : 2);
       if (imposterGuess && imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase())
         next[imposterName!] = (next[imposterName!] || 0) + 1;
     }
