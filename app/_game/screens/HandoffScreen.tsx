@@ -1,11 +1,21 @@
 'use client';
 
+import { useState } from 'react';
+
 export function HandoffScreen({ playerName, turnIdx, total, onContinue }: {
   playerName: string;
   turnIdx: number;
   total: number;
   onContinue: () => void;
 }) {
+  const [transitioning, setTransitioning] = useState(false);
+
+  const handleContinue = () => {
+    if (transitioning) return;
+    setTransitioning(true);
+    onContinue();
+  };
+
   return (
     <div className="fade-up flex-1 flex flex-col items-center justify-center text-center">
       <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-4">
@@ -17,8 +27,9 @@ export function HandoffScreen({ playerName, turnIdx, total, onContinue }: {
       </h2>
       <div className="text-stone-500 text-sm italic mb-12">Bereit? Tippe, um die Karte zu sehen.</div>
       <button
-        onClick={onContinue}
-        className="px-10 py-4 bg-stone-100 text-stone-900 font-mono-game text-sm uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-colors active:scale-95"
+        onClick={handleContinue}
+        disabled={transitioning}
+        className="px-10 py-4 bg-stone-100 text-stone-900 font-mono-game text-sm uppercase tracking-[0.2em] hover:bg-red-500 hover:text-white transition-colors active:scale-95 disabled:opacity-50"
       >
         Ich bin&apos;s →
       </button>
