@@ -2,11 +2,12 @@
 
 import type { Scores } from '../types';
 
-export function ScoreboardScreen({ scores, players, onNextRound, onEnd }: {
+export function ScoreboardScreen({ scores, players, onNextRound, onEnd, onResetScores }: {
   scores: Scores;
   players: string[];
   onNextRound: () => void;
   onEnd: () => void;
+  onResetScores: () => void;
 }) {
   const sorted = [...players].sort((a, b) => (scores[b] || 0) - (scores[a] || 0));
   const maxScore = Math.max(...Object.values(scores), 1);
@@ -38,7 +39,7 @@ export function ScoreboardScreen({ scores, players, onNextRound, onEnd }: {
         })}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 mb-2">
         <button onClick={onEnd} className="px-5 py-3 bg-stone-900 text-stone-400 font-mono-game text-xs uppercase tracking-wider hover:bg-stone-800">
           Spiel beenden
         </button>
@@ -46,6 +47,9 @@ export function ScoreboardScreen({ scores, players, onNextRound, onEnd }: {
           Nächste Runde →
         </button>
       </div>
+      <button onClick={onResetScores} className="w-full py-2 text-stone-600 font-mono-game text-[10px] uppercase tracking-wider hover:text-stone-400 transition-colors">
+        ↺ Scores zurücksetzen, Spieler behalten
+      </button>
     </div>
   );
 }

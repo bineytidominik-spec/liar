@@ -53,6 +53,7 @@ export type GameState = {
   submitVote: (votedFor: string) => void;
   applyScoring: () => void;
   resetPlayedWords: () => void;
+  resetScores: () => void;
 };
 
 export function useGameState(): GameState {
@@ -235,6 +236,12 @@ export function useGameState(): GameState {
     setDiscussionMinutes, setImposterGuess,
     startNewGame, resumeGame, addPlayer, removePlayer, goToConfig, goToPlayers, goToSetup,
     startRound, proceedFromHandoff, flipCard, flipCardBack, startVoting, submitVote,
-    applyScoring, resetPlayedWords: () => setPlayedWords(new Set()),
+    applyScoring,
+    resetPlayedWords: () => setPlayedWords(new Set()),
+    resetScores: () => {
+      const zeroed: Scores = {};
+      players.forEach(p => { zeroed[p] = 0; });
+      setScores(zeroed); setRoundNumber(1);
+    },
   };
 }

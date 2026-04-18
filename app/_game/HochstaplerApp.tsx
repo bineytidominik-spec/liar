@@ -153,6 +153,7 @@ export default function HochstaplerApp() {
               players={g.players}
               onNextRound={g.goToConfig}
               onEnd={g.goToSetup}
+              onResetScores={g.resetScores}
             />
           )}
         </main>
