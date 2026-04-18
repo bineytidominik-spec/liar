@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { PHASE, type Phase, type ImposterMode, type WordSource, type CurrentWord, type CustomWord, type Scores, type Votes, type ResultData } from '../types';
 import { WORD_PACKS, getAllWordsFromCategories, type Category } from '../wordpacks';
 import { shuffle, pickRandom, pickWordAntiRepeat } from '../utils';
 import { useTimer, type Timer } from './useTimer';
+import { saveGame, loadGame, clearGame, type PersistedState } from '../storage';
 
 export type GameState = {
   phase: Phase;
@@ -27,6 +28,7 @@ export type GameState = {
   imposterGuess: string;
   poolSize: number;
   unplayedCount: number;
+  savedGame: PersistedState | null;
   timer: Timer;
   currentPlayer: () => string;
   computeResult: () => ResultData;
@@ -37,6 +39,7 @@ export type GameState = {
   setDiscussionMinutes: (v: number) => void;
   setImposterGuess: (v: string) => void;
   startNewGame: () => void;
+  resumeGame: () => void;
   addPlayer: (name: string) => boolean;
   removePlayer: (name: string) => void;
   goToConfig: () => void;
@@ -71,8 +74,14 @@ export function useGameState(): GameState {
   const [votes, setVotes] = useState<Votes>({});
   const [currentVoterIdx, setCurrentVoterIdx] = useState(0);
   const [imposterGuess, setImposterGuess] = useState('');
+  const [savedGame, setSavedGame] = useState<PersistedState | null>(null);
 
   const timer = useTimer();
+
+  // Load saved game on mount (SSR-safe: only runs client-side)
+  useEffect(() => {
+    setSavedGame(loadGame());
+  }, []);
 
   const poolSize = useMemo(() => {
     if (wordSource === 'categories') return getAllWordsFromCategories(selectedCategories).length;
@@ -80,7 +89,6 @@ export function useGameState(): GameState {
   }, [wordSource, selectedCategories, customWords]);
 
   const unplayedCount = poolSize - playedWords.size;
-
   const currentPlayer = () => players[playOrder[currentTurnIdx]];
 
   const computeResult = (): ResultData => {
@@ -95,9 +103,42 @@ export function useGameState(): GameState {
     return { imposterName, voteCounts, imposterCaught, topVoted };
   };
 
+  const applyPersistedState = (s: PersistedState) => {
+    setPlayers(s.players);
+    setScores(s.scores);
+    setRoundNumber(s.roundNumber);
+    setWordSource(s.wordSource);
+    setSelectedCategories(s.selectedCategories);
+    setCustomWords(s.customWords);
+    setImposterMode(s.imposterMode);
+    setDiscussionMinutes(s.discussionMinutes);
+    setPlayedWords(new Set(s.playedWords));
+  };
+
   const startNewGame = () => {
+    clearGame(); setSavedGame(null);
     setPlayers([]); setScores({}); setRoundNumber(1);
     setPlayedWords(new Set()); setPhase(PHASE.PLAYERS);
+  };
+
+  const resumeGame = () => {
+    if (!savedGame) return;
+    applyPersistedState(savedGame);
+    setPhase(PHASE.CONFIG);
+  };
+
+  const persistCurrentState = (
+    nextPlayers: string[], nextScores: Scores, nextRound: number,
+    nextPlayedWords: Set<string>
+  ) => {
+    const state: PersistedState = {
+      version: 1, savedAt: Date.now(),
+      players: nextPlayers, scores: nextScores, roundNumber: nextRound,
+      wordSource, selectedCategories, customWords, imposterMode, discussionMinutes,
+      playedWords: [...nextPlayedWords],
+    };
+    saveGame(state);
+    setSavedGame(state);
   };
 
   const addPlayer = (name: string): boolean => {
@@ -115,7 +156,7 @@ export function useGameState(): GameState {
 
   const goToConfig = () => { if (players.length >= 3) setPhase(PHASE.CONFIG); };
   const goToPlayers = () => setPhase(PHASE.PLAYERS);
-  const goToSetup = () => setPhase(PHASE.SETUP);
+  const goToSetup = () => { clearGame(); setSavedGame(null); setPhase(PHASE.SETUP); };
 
   const startRound = () => {
     const pool = wordSource === 'categories'
@@ -124,7 +165,8 @@ export function useGameState(): GameState {
     if (pool.length === 0) return;
 
     const entry = pickWordAntiRepeat(pool, playedWords, () => setPlayedWords(new Set()));
-    setPlayedWords(prev => new Set([...prev, entry.word]));
+    const nextPlayedWords = new Set([...playedWords, entry.word]);
+    setPlayedWords(nextPlayedWords);
     setCurrentWord({ word: entry.word, association: pickRandom(entry.associations) });
 
     const order = shuffle(players.map((_, i) => i));
@@ -176,18 +218,21 @@ export function useGameState(): GameState {
       if (imposterGuess && imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase())
         next[imposterName!] = (next[imposterName!] || 0) + 1;
     }
-    setScores(next); setRoundNumber(r => r + 1); setPhase(PHASE.SCOREBOARD);
+    const nextRound = roundNumber + 1;
+    setScores(next); setRoundNumber(nextRound); setPhase(PHASE.SCOREBOARD);
+    // Auto-save on scoreboard
+    persistCurrentState(players, next, nextRound, playedWords);
   };
 
   return {
     phase, players, scores, roundNumber, wordSource, selectedCategories, customWords,
     imposterMode, discussionMinutes, playedWords, playOrder, currentWord, imposterName,
     currentTurnIdx, cardFlipped, votes, currentVoterIdx, imposterGuess,
-    poolSize, unplayedCount, timer, currentPlayer, computeResult,
+    poolSize, unplayedCount, savedGame, timer, currentPlayer, computeResult,
     setWordSource, setSelectedCategories, setCustomWords, setImposterMode,
     setDiscussionMinutes, setImposterGuess,
-    startNewGame, addPlayer, removePlayer, goToConfig, goToPlayers, goToSetup, startRound,
-    proceedFromHandoff, flipCard, flipCardBack, startVoting, submitVote, applyScoring,
-    resetPlayedWords: () => setPlayedWords(new Set()),
+    startNewGame, resumeGame, addPlayer, removePlayer, goToConfig, goToPlayers, goToSetup,
+    startRound, proceedFromHandoff, flipCard, flipCardBack, startVoting, submitVote,
+    applyScoring, resetPlayedWords: () => setPlayedWords(new Set()),
   };
 }

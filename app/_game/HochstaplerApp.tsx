@@ -42,7 +42,9 @@ export default function HochstaplerApp() {
         </header>
 
         <main className="flex-1 flex flex-col">
-          {g.phase === PHASE.SETUP && <SetupScreen onStart={g.startNewGame} />}
+          {g.phase === PHASE.SETUP && (
+            <SetupScreen onStart={g.startNewGame} onResume={g.resumeGame} savedGame={g.savedGame} />
+          )}
 
           {g.phase === PHASE.PLAYERS && (
             <PlayersScreen
