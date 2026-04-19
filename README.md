@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hochstapler
 
-## Getting Started
+Ein Partyspiel für 3–15 Spieler. Einer kennt das geheime Wort nicht — findet den Hochstapler, bevor er sich herausredet.
 
-First, run the development server:
+## Spielprinzip
+
+Alle Spieler sehen das geheime Wort auf ihrem Gerät, außer dem **Hochstapler**. In der Diskussionsrunde beschreibt reihum jeder das Wort — zu konkret und du verrätst es dem Hochstapler, zu vage und du machst dich verdächtig. Dann wird abgestimmt. Der Hochstapler kann sich noch retten, wenn er das Wort errät.
+
+**Punktevergabe:**
+- Spieler fangen den Hochstapler → alle außer Hochstapler +1 Punkt
+- Hochstapler errät das Wort (auch wenn gefangen) → +1 Punkt extra
+- Hochstapler bleibt unentdeckt → +2 Punkte
+- Unentschieden beim Vote → Hochstapler +1 Punkt
+
+## Tech-Stack
+
+| Bereich | Technologie |
+|---------|-------------|
+| Framework | Next.js (App Router, TypeScript) |
+| Styling | Tailwind CSS v4 |
+| PWA | @serwist/next (Service Worker, Offline) |
+| Fonts | Fraunces + JetBrains Mono via next/font |
+| Sound | Web Audio API (synthetisiert, keine Audiodateien) |
+| Haptic | navigator.vibrate |
+| Persistenz | localStorage (SSR-safe) |
+| Package Manager | pnpm |
+
+## Dev Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Dependencies installieren
+pnpm install
+
+# Entwicklungsserver
 pnpm dev
-# or
-bun dev
+
+# Produktions-Build (--webpack erforderlich wegen @serwist/next)
+pnpm build
+
+# Icons generieren (benötigt sharp)
+node scripts/generate-icons.mjs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Öffne [http://localhost:3000](http://localhost:3000) im Browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Das Projekt ist für [Vercel](https://vercel.com) optimiert:
 
-## Learn More
+1. Repo auf GitHub pushen
+2. Auf [vercel.com/new](https://vercel.com/new) importieren
+3. Build Command: `pnpm build`
+4. Install Command: `pnpm install`
+5. Deploy klicken
 
-To learn more about Next.js, take a look at the following resources:
+Die App funktioniert als PWA — auf iOS/Android einfach "Zum Home-Bildschirm hinzufügen".
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Projektstruktur
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  _game/
+    screens/            # Bildschirme pro Spielphase
+    hooks/              # useGameState, useTimer, useHaptic, useSound
+    components/         # Card3D (3D-Flip-Karte)
+    lib/                # sounds.ts (Web Audio API)
+    types.ts            # Shared TypeScript-Typen
+    wordpacks.ts        # Wortlisten mit Kategorien
+    utils.ts            # shuffle, pickRandom, pickWordAntiRepeat
+    storage.ts          # localStorage-Persistenz
+    HochstaplerApp.tsx  # Haupt-Orchestrator
+  layout.tsx
+  page.tsx
+  globals.css
+public/
+  manifest.json         # PWA-Manifest
+  sw.js                 # Service Worker (build-generiert)
+  icons/                # PWA-Icons (192×192, 512×512)
+scripts/
+  generate-icons.mjs    # SVG→PNG Icon-Generator (sharp)
+```
 
-## Deploy on Vercel
+## Lizenz
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
