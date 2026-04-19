@@ -2,13 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 
-export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote, onTick }: {
+export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote, onTick, starterName }: {
   timeLeft: number;
   running: boolean;
   onToggle: () => void;
   onReset: () => void;
   onVote: () => void;
   onTick: () => void;
+  starterName: string;
 }) {
   const prevTimeLeft = useRef(timeLeft);
 
@@ -32,8 +33,11 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
         <div className={`font-display text-[clamp(4rem,20vw,8rem)] font-black italic tabular-nums mb-4 ${isOver ? 'text-rose-500 pulse-soft' : 'text-stone-800'}`}>
           {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
         </div>
-        <div className="font-mono-game text-xs uppercase tracking-[0.3em] text-stone-400 mb-10">
+        <div className="font-mono-game text-xs uppercase tracking-[0.3em] text-stone-400 mb-2">
           {isOver ? 'Zeit abgelaufen' : running ? 'Läuft…' : 'Pausiert'}
+        </div>
+        <div className="font-mono-game text-[10px] uppercase tracking-[0.25em] text-stone-400 mb-10">
+          Fängt an: <span className="text-rose-500 font-bold">{starterName}</span>
         </div>
 
         <div className="flex gap-2 mb-10">

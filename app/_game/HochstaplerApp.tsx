@@ -138,6 +138,7 @@ export default function HochstaplerApp() {
               onReset={() => g.timer.reset(g.discussionMinutes * 60)}
               onVote={g.startVoting}
               onTick={sound.tick}
+              starterName={g.players[g.playOrder[0]]}
             />
           )}
 

@@ -181,14 +181,23 @@ export function useGameState(): GameState {
     setPlayedWords(nextPlayedWords);
     setCurrentWord({ word: entry.word, association: pickRandom(entry.associations) });
 
-    const order = shuffle(players.map((_, i) => i));
-    setPlayOrder(order);
-
-    // Pick N imposters (clamped to valid range)
+    // Pick N imposters first so we can use them when determining play order
     const maxI = Math.max(1, Math.floor(players.length / 3));
     const effectiveCount = Math.min(imposterCount, maxI);
     const shuffledPlayers = shuffle([...players]);
-    setImposterNames(shuffledPlayers.slice(0, effectiveCount));
+    const chosenImposters = shuffledPlayers.slice(0, effectiveCount);
+    setImposterNames(chosenImposters);
+
+    // Build play order: ~85% chance a non-imposter goes first
+    const order = shuffle(players.map((_, i) => i));
+    if (Math.random() > 0.15) {
+      const firstIsImposter = chosenImposters.includes(players[order[0]]);
+      if (firstIsImposter) {
+        const swapIdx = order.findIndex(i => !chosenImposters.includes(players[i]));
+        if (swapIdx !== -1) [order[0], order[swapIdx]] = [order[swapIdx], order[0]];
+      }
+    }
+    setPlayOrder(order);
 
     setCurrentTurnIdx(0); setCardFlipped(false);
     setVotes({}); setCurrentVoterIdx(0); setImposterGuess('');
