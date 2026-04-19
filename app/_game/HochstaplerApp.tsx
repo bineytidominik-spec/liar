@@ -52,7 +52,7 @@ export default function HochstaplerApp() {
   const handleScoring = () => { haptic.finale(); sound.reveal(); g.applyScoring(); };
 
   return (
-    <div className="min-h-screen w-full bg-[#fdf7f0] text-stone-800 relative overflow-hidden">
+    <div className="h-screen w-full bg-[#fdf7f0] text-stone-800 relative overflow-hidden">
       {showOnboarding && <OnboardingScreen onDone={handleOnboardingDone} />}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(253,164,175,0.35),transparent_60%)]" />
@@ -60,7 +60,7 @@ export default function HochstaplerApp() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(196,181,253,0.18),transparent_50%)]" />
       </div>
 
-      <div className="relative z-10 max-w-2xl mx-auto px-5 min-h-screen flex flex-col" style={{ paddingTop: 'max(2rem, env(safe-area-inset-top))', paddingBottom: 'max(2rem, env(safe-area-inset-bottom))' }}>
+      <div className="relative z-10 h-full max-w-2xl mx-auto px-5 flex flex-col overflow-y-auto" style={{ paddingTop: 'max(1.5rem, env(safe-area-inset-top))', paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
         <header className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
