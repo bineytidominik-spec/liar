@@ -60,7 +60,8 @@ export function ConfigScreen({
   const btnInactive = 'bg-white border border-stone-200 text-stone-500 hover:border-rose-300 rounded-xl';
 
   return (
-    <div className="fade-up space-y-6 pb-4">
+    <div className="fade-up flex flex-col h-full">
+    <div className="flex-1 overflow-y-auto space-y-6 pb-2" style={{ overscrollBehavior: 'none' }}>
       <div>
         <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">Phase 02</div>
         <h2 className="font-display text-2xl font-bold mb-1 text-stone-800">Spielregeln</h2>
@@ -195,15 +196,18 @@ export function ConfigScreen({
         </button>
       </section>
 
-      <div className="sticky bottom-0 bg-[#fdf7f0] pt-3 flex gap-2" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
-        <button onClick={onBack} className="px-5 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 rounded-xl shadow-sm transition-colors">
-          ← Spieler
-        </button>
-        <button onClick={onStart} disabled={!canStart}
-          className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] disabled:bg-stone-200 disabled:text-stone-400 transition-colors rounded-xl shadow-sm">
-          Runde starten →
-        </button>
-      </div>
+    </div>
+
+    {/* Footer — immer sichtbar, nie scrollend */}
+    <div className="flex-shrink-0 bg-[#fdf7f0] pt-3 flex gap-2" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+      <button onClick={onBack} className="px-5 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 rounded-xl shadow-sm transition-colors">
+        ← Spieler
+      </button>
+      <button onClick={onStart} disabled={!canStart}
+        className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] disabled:bg-stone-200 disabled:text-stone-400 transition-colors rounded-xl shadow-sm">
+        Runde starten →
+      </button>
+    </div>
     </div>
   );
 }

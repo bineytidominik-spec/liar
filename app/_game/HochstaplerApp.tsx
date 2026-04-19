@@ -74,104 +74,104 @@ export default function HochstaplerApp() {
         )}
       </header>
 
-      {/* Scrollbarer Hauptbereich */}
-      <main className="relative z-10 flex-1 overflow-y-auto max-w-2xl w-full mx-auto px-5" style={{ overscrollBehavior: 'none' }}>
-          {g.phase === PHASE.SETUP && (
-            <SetupScreen onStart={g.startNewGame} onResume={g.resumeGame} savedGame={g.savedGame} />
-          )}
+      {/* Hauptbereich — jeder Screen scrollt selbst */}
+      <main className="relative z-10 flex-1 overflow-hidden max-w-2xl w-full mx-auto px-5 flex flex-col">
 
-          {g.phase === PHASE.PLAYERS && (
-            <PlayersScreen
-              players={g.players}
-              addPlayer={g.addPlayer}
-              removePlayer={g.removePlayer}
-              onContinue={g.goToConfig}
-            />
-          )}
+        {/* CONFIG hat eigenen Scroll + fixen Footer-Button */}
+        {g.phase === PHASE.CONFIG && (
+          <ConfigScreen
+            wordSource={g.wordSource} setWordSource={g.setWordSource}
+            selectedCategories={g.selectedCategories} setSelectedCategories={g.setSelectedCategories}
+            customWords={g.customWords} setCustomWords={g.setCustomWords}
+            imposterMode={g.imposterMode} setImposterMode={g.setImposterMode}
+            imposterCount={g.imposterCount} setImposterCount={g.setImposterCount}
+            discussionMinutes={g.discussionMinutes} setDiscussionMinutes={g.setDiscussionMinutes}
+            poolSize={g.poolSize} unplayedCount={g.unplayedCount}
+            onResetHistory={g.resetPlayedWords}
+            onBack={g.goToPlayers}
+            onStart={g.startRound}
+            soundEnabled={sound.enabled}
+            onToggleSound={sound.toggle}
+            playerCount={g.players.length}
+          />
+        )}
 
-          {g.phase === PHASE.CONFIG && (
-            <ConfigScreen
-              wordSource={g.wordSource} setWordSource={g.setWordSource}
-              selectedCategories={g.selectedCategories} setSelectedCategories={g.setSelectedCategories}
-              customWords={g.customWords} setCustomWords={g.setCustomWords}
-              imposterMode={g.imposterMode} setImposterMode={g.setImposterMode}
-              imposterCount={g.imposterCount} setImposterCount={g.setImposterCount}
-              discussionMinutes={g.discussionMinutes} setDiscussionMinutes={g.setDiscussionMinutes}
-              poolSize={g.poolSize} unplayedCount={g.unplayedCount}
-              onResetHistory={g.resetPlayedWords}
-              onBack={g.goToPlayers}
-              onStart={g.startRound}
-              soundEnabled={sound.enabled}
-              onToggleSound={sound.toggle}
-              playerCount={g.players.length}
-            />
-          )}
-
-          {g.phase === PHASE.HANDOFF && (
-            <HandoffScreen
-              playerName={g.currentPlayer()}
-              turnIdx={g.currentTurnIdx}
-              total={g.players.length}
-              onContinue={g.proceedFromHandoff}
-            />
-          )}
-
-          {g.phase === PHASE.REVEAL && g.currentWord && (
-            <RevealScreen
-              playerName={g.currentPlayer()}
-              isImposter={g.imposterNames.includes(g.currentPlayer())}
-              word={g.currentWord}
-              imposterMode={g.imposterMode}
-              flipped={g.cardFlipped}
-              onFlip={handleFlip}
-              onFlipBack={handleFlipBack}
-              turnIdx={g.currentTurnIdx}
-              total={g.players.length}
-            />
-          )}
-
-          {g.phase === PHASE.DISCUSSION && (
-            <DiscussionScreen
-              timeLeft={g.timer.timeLeft}
-              running={g.timer.running}
-              onToggle={g.timer.toggle}
-              onReset={() => g.timer.reset(g.discussionMinutes * 60)}
-              onVote={g.startVoting}
-              onTick={sound.tick}
-              starterName={g.players[g.playOrder[0]]}
-            />
-          )}
-
-          {g.phase === PHASE.VOTE && (
-            <VoteScreen
-              voter={g.players[g.currentVoterIdx]}
-              candidates={g.players}
-              onVote={handleVote}
-              idx={g.currentVoterIdx}
-              total={g.players.length}
-            />
-          )}
-
-          {g.phase === PHASE.RESULT && g.currentWord && (
-            <ResultScreen
-              result={g.computeResult()}
-              word={g.currentWord}
-              imposterMode={g.imposterMode}
-              imposterGuess={g.imposterGuess}
-              setImposterGuess={g.setImposterGuess}
-              onContinue={handleScoring}
-            />
-          )}
-
-          {g.phase === PHASE.SCOREBOARD && (
-            <ScoreboardScreen
-              scores={g.scores}
-              players={g.players}
-              onNextRound={g.goToConfig}
-              onEnd={g.goToSetup}
-              onResetScores={g.resetScores}
-            />
-          )}
+        {/* Alle anderen Screens: scrollbar, bottom safe area */}
+        {g.phase !== PHASE.CONFIG && (
+          <div className="flex-1 overflow-y-auto" style={{ overscrollBehavior: 'none', paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
+            {g.phase === PHASE.SETUP && (
+              <SetupScreen onStart={g.startNewGame} onResume={g.resumeGame} savedGame={g.savedGame} />
+            )}
+            {g.phase === PHASE.PLAYERS && (
+              <PlayersScreen
+                players={g.players}
+                addPlayer={g.addPlayer}
+                removePlayer={g.removePlayer}
+                onContinue={g.goToConfig}
+              />
+            )}
+            {g.phase === PHASE.HANDOFF && (
+              <HandoffScreen
+                playerName={g.currentPlayer()}
+                turnIdx={g.currentTurnIdx}
+                total={g.players.length}
+                onContinue={g.proceedFromHandoff}
+              />
+            )}
+            {g.phase === PHASE.REVEAL && g.currentWord && (
+              <RevealScreen
+                playerName={g.currentPlayer()}
+                isImposter={g.imposterNames.includes(g.currentPlayer())}
+                word={g.currentWord}
+                imposterMode={g.imposterMode}
+                flipped={g.cardFlipped}
+                onFlip={handleFlip}
+                onFlipBack={handleFlipBack}
+                turnIdx={g.currentTurnIdx}
+                total={g.players.length}
+              />
+            )}
+            {g.phase === PHASE.DISCUSSION && (
+              <DiscussionScreen
+                timeLeft={g.timer.timeLeft}
+                running={g.timer.running}
+                onToggle={g.timer.toggle}
+                onReset={() => g.timer.reset(g.discussionMinutes * 60)}
+                onVote={g.startVoting}
+                onTick={sound.tick}
+                starterName={g.players[g.playOrder[0]]}
+              />
+            )}
+            {g.phase === PHASE.VOTE && (
+              <VoteScreen
+                voter={g.players[g.currentVoterIdx]}
+                candidates={g.players}
+                onVote={handleVote}
+                idx={g.currentVoterIdx}
+                total={g.players.length}
+              />
+            )}
+            {g.phase === PHASE.RESULT && g.currentWord && (
+              <ResultScreen
+                result={g.computeResult()}
+                word={g.currentWord}
+                imposterMode={g.imposterMode}
+                imposterGuess={g.imposterGuess}
+                setImposterGuess={g.setImposterGuess}
+                onContinue={handleScoring}
+              />
+            )}
+            {g.phase === PHASE.SCOREBOARD && (
+              <ScoreboardScreen
+                scores={g.scores}
+                players={g.players}
+                onNextRound={g.goToConfig}
+                onEnd={g.goToSetup}
+                onResetScores={g.resetScores}
+              />
+            )}
+          </div>
+        )}
       </main>
     </div>
   );
