@@ -195,7 +195,7 @@ export function ConfigScreen({
         </button>
       </section>
 
-      <div className="flex gap-2 pt-4">
+      <div className="sticky bottom-0 bg-[#fdf7f0] pt-3 pb-1 flex gap-2">
         <button onClick={onBack} className="px-5 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 rounded-xl shadow-sm transition-colors">
           ← Spieler
         </button>

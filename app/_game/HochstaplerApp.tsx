@@ -60,7 +60,7 @@ export default function HochstaplerApp() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(196,181,253,0.18),transparent_50%)]" />
       </div>
 
-      <div className="relative z-10 h-full max-w-2xl mx-auto px-5 flex flex-col overflow-y-auto" style={{ paddingTop: 'max(1.5rem, env(safe-area-inset-top))', paddingBottom: 'max(1.5rem, env(safe-area-inset-bottom))' }}>
+      <div className="relative z-10 h-full max-w-2xl mx-auto px-5 flex flex-col overflow-y-auto" style={{ paddingTop: 'max(2rem, calc(env(safe-area-inset-top) + 0.75rem))', paddingBottom: 'max(2.5rem, calc(env(safe-area-inset-bottom) + 1.5rem))', overscrollBehaviorY: 'none' }}>
         <header className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
