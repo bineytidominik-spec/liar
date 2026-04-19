@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useGameState } from './hooks/useGameState';
 import { useHaptic } from './hooks/useHaptic';
 import { useSound } from './hooks/useSound';
 import { PHASE } from './types';
 import { SetupScreen } from './screens/SetupScreen';
+import { OnboardingScreen } from './screens/OnboardingScreen';
 import { PlayersScreen } from './screens/PlayersScreen';
 import { ConfigScreen } from './screens/ConfigScreen';
 import { HandoffScreen } from './screens/HandoffScreen';
@@ -15,10 +16,25 @@ import { VoteScreen } from './screens/VoteScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { ScoreboardScreen } from './screens/ScoreboardScreen';
 
+const ONBOARDING_KEY = 'liar:onboarded';
+
 export default function HochstaplerApp() {
   const g = useGameState();
   const haptic = useHaptic();
   const sound = useSound();
+  // Start as true (hidden) to avoid SSR flash; flip to false if not yet onboarded
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  useEffect(() => {
+    const done = localStorage.getItem(ONBOARDING_KEY);
+    if (!done) setShowOnboarding(true);
+    else setShowOnboarding(false);
+  }, []);
+
+  const handleOnboardingDone = () => {
+    localStorage.setItem(ONBOARDING_KEY, '1');
+    setShowOnboarding(false);
+  };
 
   const activePhases: string[] = [PHASE.HANDOFF, PHASE.REVEAL, PHASE.DISCUSSION, PHASE.VOTE, PHASE.RESULT];
   const isInRound = activePhases.includes(g.phase);
@@ -37,6 +53,7 @@ export default function HochstaplerApp() {
 
   return (
     <div className="min-h-screen w-full bg-[#fdf7f0] text-stone-800 relative overflow-hidden">
+      {showOnboarding && <OnboardingScreen onDone={handleOnboardingDone} />}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(253,164,175,0.35),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(253,186,116,0.22),transparent_50%)]" />

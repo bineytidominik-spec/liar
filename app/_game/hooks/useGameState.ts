@@ -6,6 +6,7 @@ import { WORD_PACKS, getAllWordsFromCategories, type Category } from '../wordpac
 import { shuffle, pickRandom, pickWordAntiRepeat } from '../utils';
 import { useTimer, type Timer } from './useTimer';
 import { saveGame, loadGame, clearGame, type PersistedState } from '../storage';
+import { recordRound } from '../stats';
 
 export type GameState = {
   phase: Phase;
@@ -246,6 +247,7 @@ export function useGameState(): GameState {
     const nextRound = roundNumber + 1;
     setScores(next); setRoundNumber(nextRound); setPhase(PHASE.SCOREBOARD);
     persistCurrentState(players, next, nextRound, playedWords);
+    recordRound(imposterCaught);
   };
 
   return {

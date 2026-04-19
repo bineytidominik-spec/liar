@@ -1,12 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import type { PersistedState } from '../storage';
+import { loadStats, type GameStats } from '../stats';
 
 export function SetupScreen({ onStart, onResume, savedGame }: {
   onStart: () => void;
   onResume: () => void;
   savedGame: PersistedState | null;
 }) {
+  const [stats, setStats] = useState<GameStats | null>(null);
+
+  useEffect(() => {
+    const s = loadStats();
+    if (s.roundsPlayed > 0) setStats(s);
+  }, []);
+
   const savedDate = savedGame
     ? new Date(savedGame.savedAt).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
     : null;
@@ -42,7 +51,27 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
           )}
         </div>
 
-        <div className="mt-12 font-mono-game text-[10px] uppercase tracking-widest text-stone-400 space-y-1">
+        {stats && (
+          <div className="mt-10 bg-white border border-stone-100 rounded-xl p-4 shadow-sm fade-up">
+            <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-400 mb-3">Eure Stats</div>
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div>
+                <div className="font-display text-2xl font-black text-stone-800">{stats.roundsPlayed}</div>
+                <div className="font-mono-game text-[9px] uppercase tracking-wider text-stone-400 mt-0.5">Runden</div>
+              </div>
+              <div>
+                <div className="font-display text-2xl font-black text-green-500">{stats.crewWins}</div>
+                <div className="font-mono-game text-[9px] uppercase tracking-wider text-stone-400 mt-0.5">Crew-Siege</div>
+              </div>
+              <div>
+                <div className="font-display text-2xl font-black text-rose-500">{stats.liarWins}</div>
+                <div className="font-mono-game text-[9px] uppercase tracking-wider text-stone-400 mt-0.5">Liar-Siege</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-6 font-mono-game text-[10px] uppercase tracking-widest text-stone-400 space-y-1">
           <div>3–15 Spieler · Pass &amp; Play</div>
           <div>Ein Handy reicht</div>
         </div>

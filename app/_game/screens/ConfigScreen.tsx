@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { WORD_PACKS } from '../wordpacks';
+import { WORD_PACKS, NEW_CATEGORIES } from '../wordpacks';
 import type { Category } from '../wordpacks';
 import type { ImposterMode, WordSource, CustomWord } from '../types';
 
@@ -87,10 +87,16 @@ export function ConfigScreen({
           <div className="flex flex-wrap gap-2">
             {Object.keys(WORD_PACKS).map(cat => {
               const active = selectedCategories.includes(cat);
+              const isNew = NEW_CATEGORIES.has(cat);
               return (
                 <button key={cat} onClick={() => toggleCategory(cat)}
-                  className={`px-3 py-1.5 text-xs transition-all rounded-lg ${active ? 'bg-rose-500 text-white shadow-sm' : 'bg-white border border-stone-200 text-stone-500 hover:border-rose-300'}`}>
+                  className={`px-3 py-1.5 text-xs transition-all rounded-lg relative ${active ? 'bg-rose-500 text-white shadow-sm' : 'bg-white border border-stone-200 text-stone-500 hover:border-rose-300'}`}>
                   {cat} <span className="opacity-60 font-mono-game ml-1">{WORD_PACKS[cat].length}</span>
+                  {isNew && (
+                    <span className={`ml-1.5 text-[9px] font-mono-game uppercase tracking-wider font-bold px-1 py-0.5 rounded ${active ? 'bg-white/25 text-white' : 'bg-rose-100 text-rose-500'}`}>
+                      Neu
+                    </span>
+                  )}
                 </button>
               );
             })}
