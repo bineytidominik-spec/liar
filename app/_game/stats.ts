@@ -22,6 +22,11 @@ export function loadStats(): GameStats {
   }
 }
 
+export function resetStats(): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(STATS_KEY);
+}
+
 export function recordRound(crewWon: boolean): void {
   if (typeof window === 'undefined') return;
   const stats = loadStats();
