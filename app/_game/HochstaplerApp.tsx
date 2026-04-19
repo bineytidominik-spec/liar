@@ -36,11 +36,12 @@ export default function HochstaplerApp() {
   const handleScoring = () => { haptic.finale(); sound.reveal(); g.applyScoring(); };
 
   return (
-    <div className="min-h-screen w-full bg-[#0a0a0f] text-stone-100 relative overflow-hidden">
+    <div className="min-h-screen w-full bg-[#0e0e1c] text-stone-100 relative overflow-hidden">
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.08),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(234,179,8,0.04),transparent_50%)]" />
-        <div className="absolute inset-0 opacity-[0.04]" style={{
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(220,38,38,0.18),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(139,92,246,0.10),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(234,179,8,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.025]" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`
         }} />
       </div>
@@ -48,9 +49,8 @@ export default function HochstaplerApp() {
       <div className="relative z-10 max-w-2xl mx-auto px-5 py-8 min-h-screen flex flex-col">
         <header className="mb-8 flex items-center justify-between">
           <div>
-            <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500">Ein Partyspiel</div>
-            <h1 className="font-display text-3xl font-black italic tracking-tight leading-none mt-1">
-              Hoch<span className="text-red-500">stapler</span>
+            <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
+              Li<span className="text-red-500">ar</span>
             </h1>
           </div>
           {g.phase !== PHASE.SETUP && (

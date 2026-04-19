@@ -16,13 +16,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hochstapler — Das Partyspiel",
-  description: "Ein Pass-and-Play-Partyspiel für 3–15 Spieler. Einer kennt das Wort nicht — findet den Hochstapler!",
+  title: "Liar — Party Game",
+  description: "A pass-and-play party game for 3–15 players. One person doesn't know the secret word. Find the liar.",
   manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0f",
+  themeColor: "#0e0e1c",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
