@@ -60,8 +60,8 @@ export function ConfigScreen({
   const btnInactive = 'bg-white border border-stone-200 text-stone-500 hover:border-rose-300 rounded-xl';
 
   return (
-    <div className="fade-up flex flex-col h-full">
-    <div className="flex-1 overflow-y-auto space-y-6 pb-2" style={{ overscrollBehavior: 'none' }}>
+    <div className="fade-up flex flex-col flex-1 min-h-0">
+    <div className="flex-1 min-h-0 overflow-y-auto space-y-6 pb-2" style={{ overscrollBehavior: 'none' }}>
       <div>
         <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">Phase 02</div>
         <h2 className="font-display text-2xl font-bold mb-1 text-stone-800">Spielregeln</h2>

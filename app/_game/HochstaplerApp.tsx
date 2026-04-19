@@ -75,7 +75,7 @@ export default function HochstaplerApp() {
       </header>
 
       {/* Hauptbereich — jeder Screen scrollt selbst */}
-      <main className="relative z-10 flex-1 overflow-hidden max-w-2xl w-full mx-auto px-5 flex flex-col">
+      <main className="relative z-10 flex-1 min-h-0 overflow-hidden max-w-2xl w-full mx-auto px-5 flex flex-col">
 
         {/* CONFIG hat eigenen Scroll + fixen Footer-Button */}
         {g.phase === PHASE.CONFIG && (
