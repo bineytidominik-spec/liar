@@ -15,9 +15,9 @@ export function Card3D({ flipped, isImposter, onFlip, onFlipBack, front, back }:
       <div className={`card-inner ${flipped ? 'flipped' : ''}`}>
         <button
           onClick={!flipped ? onFlip : undefined}
-          className="card-face w-full h-full bg-white border border-rose-200 hover:border-rose-400 transition-colors group overflow-hidden cursor-pointer shadow-md"
+          className="card-face w-full h-full bg-white border border-rose-200 hover:border-rose-400 transition-colors group overflow-hidden cursor-pointer rounded-2xl shadow-md"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,113,133,0.10),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,113,133,0.10),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
           <div className="relative h-full flex flex-col items-center justify-center">
             {front}
           </div>
@@ -25,7 +25,7 @@ export function Card3D({ flipped, isImposter, onFlip, onFlipBack, front, back }:
 
         <button
           onClick={flipped ? onFlipBack : undefined}
-          className={`card-face card-back w-full h-full border cursor-pointer shadow-md ${
+          className={`card-face card-back w-full h-full border cursor-pointer rounded-2xl shadow-md ${
             isImposter
               ? 'bg-gradient-to-br from-rose-50 to-red-50 border-rose-300'
               : 'bg-gradient-to-br from-white to-amber-50 border-amber-100'

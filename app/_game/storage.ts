@@ -15,6 +15,7 @@ export type PersistedState = {
   imposterMode: ImposterMode;
   discussionMinutes: number;
   playedWords: string[];
+  imposterCount: number;
 };
 
 export function saveGame(state: PersistedState): void {
@@ -31,6 +32,8 @@ export function loadGame(): PersistedState | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as PersistedState;
     if (parsed.version !== 1) return null;
+    // Backward compat: old saves without imposterCount
+    if (!parsed.imposterCount) parsed.imposterCount = 1;
     return parsed;
   } catch {
     return null;

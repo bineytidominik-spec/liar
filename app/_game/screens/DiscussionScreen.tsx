@@ -13,7 +13,6 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
   const prevTimeLeft = useRef(timeLeft);
 
   useEffect(() => {
-    // Play tick sound each second during the last minute
     if (running && timeLeft > 0 && timeLeft <= 60 && timeLeft !== prevTimeLeft.current) {
       onTick();
     }
@@ -38,10 +37,10 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
         </div>
 
         <div className="flex gap-2 mb-10">
-          <button onClick={onToggle} className="px-6 py-3 bg-stone-800 text-white font-mono-game text-xs uppercase tracking-wider hover:bg-rose-500 transition-colors shadow-sm">
+          <button onClick={onToggle} className="px-6 py-3 bg-rose-500 text-white font-mono-game text-xs uppercase tracking-wider hover:bg-rose-600 transition-colors rounded-xl shadow-sm">
             {running ? '❚❚ Pause' : '▶ Start'}
           </button>
-          <button onClick={onReset} className="px-6 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:border-stone-400 shadow-sm">
+          <button onClick={onReset} className="px-6 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 transition-colors rounded-xl shadow-sm">
             ↻ Reset
           </button>
         </div>
@@ -53,7 +52,7 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
         </div>
       </div>
 
-      <button onClick={onVote} className="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-colors shadow-sm">
+      <button onClick={onVote} className="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-colors rounded-xl shadow-sm">
         Zur Abstimmung →
       </button>
     </div>

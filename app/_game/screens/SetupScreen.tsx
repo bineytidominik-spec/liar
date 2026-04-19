@@ -24,8 +24,7 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
         <div className="space-y-3">
           <button
             onClick={onStart}
-            className="w-full px-10 py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-all active:scale-95 shadow-sm"
-            style={{ clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)' }}
+            className="w-full px-10 py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-all active:scale-95 rounded-xl shadow-sm"
           >
             Spiel starten
           </button>
@@ -33,7 +32,7 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
           {savedGame && (
             <button
               onClick={onResume}
-              className="w-full px-10 py-3 bg-white border border-stone-200 hover:border-rose-300 text-stone-600 font-mono-game text-xs uppercase tracking-[0.2em] transition-all shadow-sm"
+              className="w-full px-10 py-3 bg-white border border-rose-200 hover:bg-rose-50 text-stone-600 font-mono-game text-xs uppercase tracking-[0.2em] transition-all rounded-xl shadow-sm"
             >
               <div>Letztes Spiel fortsetzen</div>
               <div className="text-stone-400 normal-case tracking-normal mt-0.5 text-[10px]">

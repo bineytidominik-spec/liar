@@ -28,7 +28,7 @@ export type Scores = Record<string, number>;
 export type Votes = Record<string, string>;
 
 export type ResultData = {
-  imposterName: string | null;
+  imposterNames: string[];
   voteCounts: Record<string, number>;
   imposterCaught: boolean;
   topVoted: string[];

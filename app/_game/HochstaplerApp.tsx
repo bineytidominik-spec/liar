@@ -78,6 +78,7 @@ export default function HochstaplerApp() {
               selectedCategories={g.selectedCategories} setSelectedCategories={g.setSelectedCategories}
               customWords={g.customWords} setCustomWords={g.setCustomWords}
               imposterMode={g.imposterMode} setImposterMode={g.setImposterMode}
+              imposterCount={g.imposterCount} setImposterCount={g.setImposterCount}
               discussionMinutes={g.discussionMinutes} setDiscussionMinutes={g.setDiscussionMinutes}
               poolSize={g.poolSize} unplayedCount={g.unplayedCount}
               onResetHistory={g.resetPlayedWords}
@@ -101,7 +102,7 @@ export default function HochstaplerApp() {
           {g.phase === PHASE.REVEAL && g.currentWord && (
             <RevealScreen
               playerName={g.currentPlayer()}
-              isImposter={g.currentPlayer() === g.imposterName}
+              isImposter={g.imposterNames.includes(g.currentPlayer())}
               word={g.currentWord}
               imposterMode={g.imposterMode}
               flipped={g.cardFlipped}

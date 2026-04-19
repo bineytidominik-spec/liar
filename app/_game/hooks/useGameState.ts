@@ -16,11 +16,12 @@ export type GameState = {
   selectedCategories: Category[];
   customWords: CustomWord[];
   imposterMode: ImposterMode;
+  imposterCount: number;
   discussionMinutes: number;
   playedWords: Set<string>;
   playOrder: number[];
   currentWord: CurrentWord | null;
-  imposterName: string | null;
+  imposterNames: string[];
   currentTurnIdx: number;
   cardFlipped: boolean;
   votes: Votes;
@@ -36,6 +37,7 @@ export type GameState = {
   setSelectedCategories: (v: Category[]) => void;
   setCustomWords: (v: CustomWord[]) => void;
   setImposterMode: (v: ImposterMode) => void;
+  setImposterCount: (v: number) => void;
   setDiscussionMinutes: (v: number) => void;
   setImposterGuess: (v: string) => void;
   startNewGame: () => void;
@@ -65,11 +67,12 @@ export function useGameState(): GameState {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>(Object.keys(WORD_PACKS));
   const [customWords, setCustomWords] = useState<CustomWord[]>([]);
   const [imposterMode, setImposterMode] = useState<ImposterMode>('blank');
+  const [imposterCount, setImposterCount] = useState(1);
   const [discussionMinutes, setDiscussionMinutes] = useState(3);
   const [playedWords, setPlayedWords] = useState<Set<string>>(new Set());
   const [playOrder, setPlayOrder] = useState<number[]>([]);
   const [currentWord, setCurrentWord] = useState<CurrentWord | null>(null);
-  const [imposterName, setImposterName] = useState<string | null>(null);
+  const [imposterNames, setImposterNames] = useState<string[]>([]);
   const [currentTurnIdx, setCurrentTurnIdx] = useState(0);
   const [cardFlipped, setCardFlipped] = useState(false);
   const [votes, setVotes] = useState<Votes>({});
@@ -100,8 +103,8 @@ export function useGameState(): GameState {
     });
     const maxVotes = Math.max(...Object.values(voteCounts));
     const topVoted = players.filter(p => voteCounts[p] === maxVotes);
-    const imposterCaught = topVoted.length === 1 && topVoted[0] === imposterName;
-    return { imposterName, voteCounts, imposterCaught, topVoted };
+    const imposterCaught = topVoted.length === 1 && imposterNames.includes(topVoted[0]);
+    return { imposterNames, voteCounts, imposterCaught, topVoted };
   };
 
   const applyPersistedState = (s: PersistedState) => {
@@ -112,6 +115,7 @@ export function useGameState(): GameState {
     setSelectedCategories(s.selectedCategories);
     setCustomWords(s.customWords);
     setImposterMode(s.imposterMode);
+    setImposterCount(s.imposterCount ?? 1);
     setDiscussionMinutes(s.discussionMinutes);
     setPlayedWords(new Set(s.playedWords));
   };
@@ -135,8 +139,8 @@ export function useGameState(): GameState {
     const state: PersistedState = {
       version: 1, savedAt: Date.now(),
       players: nextPlayers, scores: nextScores, roundNumber: nextRound,
-      wordSource, selectedCategories, customWords, imposterMode, discussionMinutes,
-      playedWords: [...nextPlayedWords],
+      wordSource, selectedCategories, customWords, imposterMode, imposterCount,
+      discussionMinutes, playedWords: [...nextPlayedWords],
     };
     saveGame(state);
     setSavedGame(state);
@@ -151,7 +155,13 @@ export function useGameState(): GameState {
   };
 
   const removePlayer = (name: string) => {
-    setPlayers(p => p.filter(x => x !== name));
+    setPlayers(p => {
+      const next = p.filter(x => x !== name);
+      // Clamp imposterCount if needed after removal
+      const maxI = Math.max(1, Math.floor(next.length / 3));
+      setImposterCount(c => Math.min(c, maxI));
+      return next;
+    });
     setScores(s => { const n = { ...s }; delete n[name]; return n; });
   };
 
@@ -172,7 +182,13 @@ export function useGameState(): GameState {
 
     const order = shuffle(players.map((_, i) => i));
     setPlayOrder(order);
-    setImposterName(players[Math.floor(Math.random() * players.length)]);
+
+    // Pick N imposters (clamped to valid range)
+    const maxI = Math.max(1, Math.floor(players.length / 3));
+    const effectiveCount = Math.min(imposterCount, maxI);
+    const shuffledPlayers = shuffle([...players]);
+    setImposterNames(shuffledPlayers.slice(0, effectiveCount));
+
     setCurrentTurnIdx(0); setCardFlipped(false);
     setVotes({}); setCurrentVoterIdx(0); setImposterGuess('');
     setPhase(PHASE.HANDOFF);
@@ -211,28 +227,33 @@ export function useGameState(): GameState {
     const { imposterCaught, topVoted } = computeResult();
     const isTie = !imposterCaught && topVoted.length > 1;
     const next = { ...scores };
+    const guessCorrect = imposterGuess &&
+      imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase();
+
     if (imposterCaught) {
-      players.forEach(p => { if (p !== imposterName) next[p] = (next[p] || 0) + 1; });
-      if (imposterGuess && imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase())
-        next[imposterName!] = (next[imposterName!] || 0) + 1;
+      // Crew wins: non-imposters +1, imposters can get +1 for correct guess
+      players.forEach(p => { if (!imposterNames.includes(p)) next[p] = (next[p] || 0) + 1; });
+      if (guessCorrect) {
+        imposterNames.forEach(n => { next[n] = (next[n] || 0) + 1; });
+      }
     } else {
-      // 1 point on tie (no majority), 2 points if fully undetected
-      next[imposterName!] = (next[imposterName!] || 0) + (isTie ? 1 : 2);
-      if (imposterGuess && imposterGuess.trim().toLowerCase() === currentWord?.word.toLowerCase())
-        next[imposterName!] = (next[imposterName!] || 0) + 1;
+      // Imposters win: tie → +1 each, undetected → +2 each
+      imposterNames.forEach(n => { next[n] = (next[n] || 0) + (isTie ? 1 : 2); });
+      if (guessCorrect) {
+        imposterNames.forEach(n => { next[n] = (next[n] || 0) + 1; });
+      }
     }
     const nextRound = roundNumber + 1;
     setScores(next); setRoundNumber(nextRound); setPhase(PHASE.SCOREBOARD);
-    // Auto-save on scoreboard
     persistCurrentState(players, next, nextRound, playedWords);
   };
 
   return {
     phase, players, scores, roundNumber, wordSource, selectedCategories, customWords,
-    imposterMode, discussionMinutes, playedWords, playOrder, currentWord, imposterName,
-    currentTurnIdx, cardFlipped, votes, currentVoterIdx, imposterGuess,
+    imposterMode, imposterCount, discussionMinutes, playedWords, playOrder, currentWord,
+    imposterNames, currentTurnIdx, cardFlipped, votes, currentVoterIdx, imposterGuess,
     poolSize, unplayedCount, savedGame, timer, currentPlayer, computeResult,
-    setWordSource, setSelectedCategories, setCustomWords, setImposterMode,
+    setWordSource, setSelectedCategories, setCustomWords, setImposterMode, setImposterCount,
     setDiscussionMinutes, setImposterGuess,
     startNewGame, resumeGame, addPlayer, removePlayer, goToConfig, goToPlayers, goToSetup,
     startRound, proceedFromHandoff, flipCard, flipCardBack, startVoting, submitVote,
