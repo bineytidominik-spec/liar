@@ -45,8 +45,18 @@ export function OnboardingScreen({ onDone }: { onDone: () => void }) {
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col max-w-md mx-auto w-full px-6 pt-12 pb-8">
+        {/* Title */}
+        <div className="mb-8">
+          <h1 className="font-display text-4xl font-black italic tracking-tight leading-none">
+            Li<span className="text-rose-500">ar</span>
+          </h1>
+          <p className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-400 mt-1">
+            Das Partyspiel
+          </p>
+        </div>
+
         {/* Slide indicators */}
-        <div className="flex gap-1.5 mb-10">
+        <div className="flex gap-1.5 mb-8">
           {SLIDES.map((_, i) => (
             <div
               key={i}
