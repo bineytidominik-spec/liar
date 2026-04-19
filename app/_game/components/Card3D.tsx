@@ -15,9 +15,9 @@ export function Card3D({ flipped, isImposter, onFlip, onFlipBack, front, back }:
       <div className={`card-inner ${flipped ? 'flipped' : ''}`}>
         <button
           onClick={!flipped ? onFlip : undefined}
-          className="card-face w-full h-full bg-gradient-to-br from-stone-900 to-stone-950 border border-red-500/20 hover:border-red-500/60 transition-colors group overflow-hidden cursor-pointer"
+          className="card-face w-full h-full bg-white border border-rose-200 hover:border-rose-400 transition-colors group overflow-hidden cursor-pointer shadow-md"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.12),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(251,113,133,0.10),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="relative h-full flex flex-col items-center justify-center">
             {front}
           </div>
@@ -25,15 +25,15 @@ export function Card3D({ flipped, isImposter, onFlip, onFlipBack, front, back }:
 
         <button
           onClick={flipped ? onFlipBack : undefined}
-          className={`card-face card-back w-full h-full border cursor-pointer ${
+          className={`card-face card-back w-full h-full border cursor-pointer shadow-md ${
             isImposter
-              ? 'bg-gradient-to-br from-red-950/40 to-stone-950 border-red-500/40'
-              : 'bg-gradient-to-br from-stone-800 to-stone-950 border-stone-700'
+              ? 'bg-gradient-to-br from-rose-50 to-red-50 border-rose-300'
+              : 'bg-gradient-to-br from-white to-amber-50 border-amber-100'
           }`}
         >
           <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
             {back}
-            <div className="absolute bottom-4 left-0 right-0 font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 text-center pulse-soft">
+            <div className="absolute bottom-4 left-0 right-0 font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-400 text-center pulse-soft">
               Tippen zum Verdecken
             </div>
           </div>

@@ -19,28 +19,29 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
     }
     prevTimeLeft.current = timeLeft;
   }, [timeLeft, running, onTick]);
+
   const mins = Math.floor(timeLeft / 60);
   const secs = timeLeft % 60;
   const isOver = timeLeft === 0 && !running;
 
   return (
     <div className="fade-up flex-1 flex flex-col">
-      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2">Phase 03</div>
-      <h2 className="font-display text-2xl font-bold mb-8">Diskussion.</h2>
+      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">Phase 03</div>
+      <h2 className="font-display text-2xl font-bold mb-8 text-stone-800">Diskussion.</h2>
 
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className={`font-display text-[clamp(4rem,20vw,8rem)] font-black italic tabular-nums mb-4 ${isOver ? 'text-red-500 pulse-soft' : 'text-stone-100'}`}>
+        <div className={`font-display text-[clamp(4rem,20vw,8rem)] font-black italic tabular-nums mb-4 ${isOver ? 'text-rose-500 pulse-soft' : 'text-stone-800'}`}>
           {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
         </div>
-        <div className="font-mono-game text-xs uppercase tracking-[0.3em] text-stone-500 mb-10">
+        <div className="font-mono-game text-xs uppercase tracking-[0.3em] text-stone-400 mb-10">
           {isOver ? 'Zeit abgelaufen' : running ? 'Läuft…' : 'Pausiert'}
         </div>
 
         <div className="flex gap-2 mb-10">
-          <button onClick={onToggle} className="px-6 py-3 bg-stone-100 text-stone-900 font-mono-game text-xs uppercase tracking-wider hover:bg-red-500 hover:text-white transition-colors">
+          <button onClick={onToggle} className="px-6 py-3 bg-stone-800 text-white font-mono-game text-xs uppercase tracking-wider hover:bg-rose-500 transition-colors shadow-sm">
             {running ? '❚❚ Pause' : '▶ Start'}
           </button>
-          <button onClick={onReset} className="px-6 py-3 bg-stone-900 border border-stone-800 text-stone-400 font-mono-game text-xs uppercase tracking-wider hover:text-stone-100">
+          <button onClick={onReset} className="px-6 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:border-stone-400 shadow-sm">
             ↻ Reset
           </button>
         </div>
@@ -52,7 +53,7 @@ export function DiscussionScreen({ timeLeft, running, onToggle, onReset, onVote,
         </div>
       </div>
 
-      <button onClick={onVote} className="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-colors">
+      <button onClick={onVote} className="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-colors shadow-sm">
         Zur Abstimmung →
       </button>
     </div>

@@ -19,39 +19,39 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
 
   return (
     <div className="fade-up flex-1 flex flex-col">
-      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2">Auflösung</div>
+      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">Auflösung</div>
 
-      <div className={`border-l-4 ${imposterCaught ? 'border-green-500' : 'border-red-500'} pl-4 mb-6`}>
-        <div className={`font-mono-game text-xs uppercase tracking-widest mb-1 ${imposterCaught ? 'text-green-500' : 'text-red-500'}`}>
-          {imposterCaught ? 'Crew gewinnt' : 'Hochstapler gewinnt'}
+      <div className={`border-l-4 ${imposterCaught ? 'border-green-400' : 'border-rose-500'} pl-4 mb-6`}>
+        <div className={`font-mono-game text-xs uppercase tracking-widest mb-1 ${imposterCaught ? 'text-green-600' : 'text-rose-600'}`}>
+          {imposterCaught ? 'Crew gewinnt' : 'Liar gewinnt'}
         </div>
-        <div className="font-display text-3xl font-black italic">
+        <div className="font-display text-3xl font-black italic text-stone-800">
           {imposterCaught ? 'Entlarvt.' : topVoted.length > 1 ? 'Keine Mehrheit.' : 'Unentdeckt.'}
         </div>
       </div>
 
-      <div className="bg-stone-900/40 p-5 mb-6 space-y-3">
+      <div className="bg-white shadow-sm border border-stone-100 p-5 mb-6 space-y-3">
         <div>
-          <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-1">Der Hochstapler war</div>
-          <div className="font-display text-2xl font-bold text-red-500 break-words">{imposterName}</div>
+          <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mb-1">Der Liar war</div>
+          <div className="font-display text-2xl font-bold text-rose-600 break-words">{imposterName}</div>
         </div>
         <div>
-          <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-1">Das Wort</div>
-          <div className="font-display text-2xl font-bold italic">{word.word}</div>
+          <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mb-1">Das Wort</div>
+          <div className="font-display text-2xl font-bold italic text-stone-800">{word.word}</div>
           {imposterMode === 'similar' && (
-            <div className="text-xs text-stone-500 mt-1">Hinweis für Imposter: <span className="text-stone-300">{word.association}</span></div>
+            <div className="text-xs text-stone-400 mt-1">Hinweis für Liar: <span className="text-stone-600">{word.association}</span></div>
           )}
         </div>
       </div>
 
       <div className="mb-6">
-        <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-2">Stimmen</div>
+        <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mb-2">Stimmen</div>
         <div className="space-y-1">
           {Object.entries(voteCounts).sort((a, b) => b[1] - a[1]).map(([name, count]) => (
             <div key={name} className="flex items-center gap-3">
-              <div className="w-28 text-sm truncate">{name}{name === imposterName && <span className="text-red-500 ml-1">●</span>}</div>
-              <div className="flex-1 bg-stone-900 h-2">
-                <div className="bg-red-500 h-full transition-all" style={{ width: `${(count / maxVotes) * 100}%` }} />
+              <div className="w-28 text-sm truncate text-stone-700">{name}{name === imposterName && <span className="text-rose-500 ml-1">●</span>}</div>
+              <div className="flex-1 bg-stone-200 h-2">
+                <div className="bg-rose-400 h-full transition-all" style={{ width: `${(count / maxVotes) * 100}%` }} />
               </div>
               <div className="font-mono-game text-xs text-stone-400 w-6 text-right">{count}</div>
             </div>
@@ -60,26 +60,26 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
       </div>
 
       {needsGuess && !guessSubmitted && (
-        <div className="bg-red-950/30 border border-red-500/30 p-4 mb-6 fade-up">
-          <div className="font-mono-game text-[10px] uppercase tracking-widest text-red-500 mb-2">Bonus-Chance</div>
-          <p className="text-sm text-stone-300 mb-3">
+        <div className="bg-rose-50 border border-rose-200 p-4 mb-6 fade-up">
+          <div className="font-mono-game text-[10px] uppercase tracking-widest text-rose-500 mb-2">Bonus-Chance</div>
+          <p className="text-sm text-stone-600 mb-3">
             <span className="font-bold">{imposterName}</span>, errätst du das Wort? (+1 Bonuspunkt)
           </p>
           <div className="flex gap-2">
             <input value={imposterGuess} onChange={e => setImposterGuess(e.target.value)} placeholder="Dein Tipp..."
-              className="flex-1 bg-stone-900 border border-stone-800 px-3 py-2 text-sm focus:outline-none focus:border-red-500" />
-            <button onClick={() => setGuessSubmitted(true)} className="px-4 bg-red-600 text-white text-xs font-mono-game uppercase tracking-wider">
+              className="flex-1 bg-white border border-stone-200 px-3 py-2 text-sm focus:outline-none focus:border-rose-400 text-stone-800" />
+            <button onClick={() => setGuessSubmitted(true)} className="px-4 bg-rose-500 text-white text-xs font-mono-game uppercase tracking-wider hover:bg-rose-600">
               Abgeben
             </button>
           </div>
-          <button onClick={() => { setImposterGuess(''); setGuessSubmitted(true); }} className="text-xs text-stone-500 mt-2 hover:text-stone-300">
+          <button onClick={() => { setImposterGuess(''); setGuessSubmitted(true); }} className="text-xs text-stone-400 mt-2 hover:text-stone-600">
             Überspringen
           </button>
         </div>
       )}
 
       <button onClick={onContinue} disabled={!canContinue}
-        className="w-full py-4 bg-stone-100 text-stone-900 hover:bg-red-500 hover:text-white font-mono-game text-sm uppercase tracking-[0.2em] disabled:opacity-40 transition-colors">
+        className="w-full py-4 bg-stone-800 text-white hover:bg-rose-500 font-mono-game text-sm uppercase tracking-[0.2em] disabled:opacity-40 transition-colors shadow-sm">
         Punkte vergeben →
       </button>
     </div>

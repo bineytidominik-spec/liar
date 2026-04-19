@@ -9,13 +9,13 @@ export function VoteScreen({ voter, candidates, onVote, idx, total }: {
 }) {
   return (
     <div className="fade-up flex-1 flex flex-col">
-      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-500 mb-2">
+      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">
         Stimme {idx + 1} von {total}
       </div>
-      <h2 className="font-display text-2xl font-bold mb-2 break-words">
-        <span className="text-red-500">{voter}</span>, wen verdächtigst du?
+      <h2 className="font-display text-2xl font-bold mb-2 break-words text-stone-800">
+        <span className="text-rose-500">{voter}</span>, wen verdächtigst du?
       </h2>
-      <p className="text-stone-400 text-sm mb-6 italic">Handy wandert weiter — einer nach dem anderen.</p>
+      <p className="text-stone-500 text-sm mb-6 italic">Handy wandert weiter — einer nach dem anderen.</p>
 
       <div className="space-y-1.5 flex-1 overflow-y-auto">
         {candidates.map(p => (
@@ -23,9 +23,9 @@ export function VoteScreen({ voter, candidates, onVote, idx, total }: {
             key={p}
             onClick={() => onVote(p)}
             disabled={p === voter}
-            className="w-full text-left px-4 py-3.5 bg-stone-900/40 border-l-2 border-stone-800 hover:border-red-500 hover:bg-stone-900 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-stone-800 disabled:hover:bg-stone-900/40 font-display text-lg transition-all"
+            className="w-full text-left px-4 py-3.5 bg-white border-l-2 border-stone-200 hover:border-rose-400 hover:bg-rose-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:border-stone-200 disabled:hover:bg-white font-display text-lg text-stone-800 transition-all shadow-sm"
           >
-            {p} {p === voter && <span className="text-xs text-stone-600 font-mono-game ml-2">(du)</span>}
+            {p} {p === voter && <span className="text-xs text-stone-400 font-mono-game ml-2">(du)</span>}
           </button>
         ))}
       </div>

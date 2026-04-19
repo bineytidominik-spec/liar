@@ -14,17 +14,17 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
   return (
     <div className="flex-1 flex flex-col justify-center items-center text-center fade-up">
       <div className="max-w-md">
-        <div className="font-mono-game text-xs uppercase tracking-[0.4em] text-red-500/80 mb-6">— Wer lügt? —</div>
-        <p className="font-display text-xl italic text-stone-300 leading-relaxed mb-12">
+        <div className="font-mono-game text-xs uppercase tracking-[0.4em] text-rose-400 mb-6">— Wer lügt? —</div>
+        <p className="font-display text-xl italic text-stone-600 leading-relaxed mb-12">
           Alle kennen das Wort.<br />
           Einer tut so, als ob.<br />
-          <span className="text-red-500 not-italic font-black">Findet ihn.</span>
+          <span className="text-rose-600 not-italic font-black">Findet ihn.</span>
         </p>
 
         <div className="space-y-3">
           <button
             onClick={onStart}
-            className="w-full px-10 py-4 bg-red-600 hover:bg-red-500 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-all active:scale-95"
+            className="w-full px-10 py-4 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] transition-all active:scale-95 shadow-sm"
             style={{ clipPath: 'polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%)' }}
           >
             Spiel starten
@@ -33,17 +33,17 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
           {savedGame && (
             <button
               onClick={onResume}
-              className="w-full px-10 py-3 bg-stone-900 border border-stone-700 hover:border-red-500/60 text-stone-300 font-mono-game text-xs uppercase tracking-[0.2em] transition-all"
+              className="w-full px-10 py-3 bg-white border border-stone-200 hover:border-rose-300 text-stone-600 font-mono-game text-xs uppercase tracking-[0.2em] transition-all shadow-sm"
             >
               <div>Letztes Spiel fortsetzen</div>
-              <div className="text-stone-500 normal-case tracking-normal mt-0.5 text-[10px]">
+              <div className="text-stone-400 normal-case tracking-normal mt-0.5 text-[10px]">
                 {savedGame.players.length} Spieler · {savedDate}
               </div>
             </button>
           )}
         </div>
 
-        <div className="mt-12 font-mono-game text-[10px] uppercase tracking-widest text-stone-600 space-y-1">
+        <div className="mt-12 font-mono-game text-[10px] uppercase tracking-widest text-stone-400 space-y-1">
           <div>3–15 Spieler · Pass &amp; Play</div>
           <div>Ein Handy reicht</div>
         </div>
