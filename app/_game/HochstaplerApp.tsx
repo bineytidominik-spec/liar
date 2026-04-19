@@ -52,7 +52,7 @@ export default function HochstaplerApp() {
   const handleScoring = () => { haptic.finale(); sound.reveal(); g.applyScoring(); };
 
   return (
-    <div className="h-screen w-full bg-[#fdf7f0] text-stone-800 relative overflow-hidden">
+    <div className="h-screen w-full bg-[#fdf7f0] text-stone-800 relative flex flex-col overflow-hidden">
       {showOnboarding && <OnboardingScreen onDone={handleOnboardingDone} />}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(253,164,175,0.35),transparent_60%)]" />
@@ -60,22 +60,22 @@ export default function HochstaplerApp() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(196,181,253,0.18),transparent_50%)]" />
       </div>
 
-      <div className="relative z-10 h-full max-w-2xl mx-auto px-5 flex flex-col overflow-y-auto" style={{ paddingTop: 'max(2rem, calc(env(safe-area-inset-top) + 0.75rem))', paddingBottom: 'max(2.5rem, calc(env(safe-area-inset-bottom) + 1.5rem))', overscrollBehaviorY: 'none' }}>
-        <header className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
-              Li<span className="text-rose-500">ar</span>
-            </h1>
+      {/* Header — immer sichtbar, nicht scrollbar */}
+      <header className="relative z-10 flex-shrink-0 max-w-2xl w-full mx-auto px-5 flex items-center justify-between"
+        style={{ paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top) + 0.5rem))', paddingBottom: '1rem' }}>
+        <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
+          Li<span className="text-rose-500">ar</span>
+        </h1>
+        {g.phase !== PHASE.SETUP && (
+          <div className="text-right font-mono-game text-[10px] uppercase tracking-widest text-stone-400">
+            <div>Runde {g.roundNumber}</div>
+            <div>{g.players.length} Spieler</div>
           </div>
-          {g.phase !== PHASE.SETUP && (
-            <div className="text-right font-mono-game text-[10px] uppercase tracking-widest text-stone-400">
-              <div>Runde {g.roundNumber}</div>
-              <div>{g.players.length} Spieler</div>
-            </div>
-          )}
-        </header>
+        )}
+      </header>
 
-        <main className="flex-1 flex flex-col">
+      {/* Scrollbarer Hauptbereich */}
+      <main className="relative z-10 flex-1 overflow-y-auto max-w-2xl w-full mx-auto px-5" style={{ overscrollBehavior: 'none' }}>
           {g.phase === PHASE.SETUP && (
             <SetupScreen onStart={g.startNewGame} onResume={g.resumeGame} savedGame={g.savedGame} />
           )}
@@ -172,8 +172,7 @@ export default function HochstaplerApp() {
               onResetScores={g.resetScores}
             />
           )}
-        </main>
-      </div>
+      </main>
     </div>
   );
 }
