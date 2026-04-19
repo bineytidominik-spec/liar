@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+html, body {
+  background-color: #fdf7f0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 @theme inline {
   --font-fraunces: var(--font-fraunces);
   --font-jetbrains-mono: var(--font-jetbrains-mono);
