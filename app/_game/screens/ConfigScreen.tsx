@@ -59,12 +59,8 @@ export function ConfigScreen({
   const btnActive = 'bg-rose-500 text-white rounded-xl shadow-sm';
   const btnInactive = 'bg-white border border-stone-200 text-stone-500 hover:border-rose-300 rounded-xl';
 
-  // Footer-Höhe: py-3 Button (~44px) + pt-3 (~12px) + safe-area-bottom (~34px) ≈ 90px
-  const FOOTER_H = 'calc(90px + env(safe-area-inset-bottom, 0px))';
-
   return (
-    <div className="fade-up">
-    <div className="overflow-y-auto space-y-6" style={{ overscrollBehavior: 'none', paddingBottom: FOOTER_H }}>
+    <div className="fade-up space-y-6 pb-4">
       <div>
         <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-rose-400 mb-2">Phase 02</div>
         <h2 className="font-display text-2xl font-bold mb-1 text-stone-800">Spielregeln</h2>
@@ -199,21 +195,15 @@ export function ConfigScreen({
         </button>
       </section>
 
-    </div>
-
-    {/* Fixed footer — immer am unteren Rand, unabhängig vom Scroll */}
-    <div
-      className="fixed bottom-0 left-0 right-0 bg-[#fdf7f0] pt-3 flex gap-2 px-5 z-50"
-      style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
-    >
-      <button onClick={onBack} className="px-5 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 rounded-xl shadow-sm transition-colors">
-        ← Spieler
-      </button>
-      <button onClick={onStart} disabled={!canStart}
-        className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] disabled:bg-stone-200 disabled:text-stone-400 transition-colors rounded-xl shadow-sm">
-        Runde starten →
-      </button>
-    </div>
+      <div className="flex gap-2 pt-2">
+        <button onClick={onBack} className="px-5 py-3 bg-white border border-stone-200 text-stone-500 font-mono-game text-xs uppercase tracking-wider hover:bg-rose-50 hover:border-rose-200 rounded-xl shadow-sm transition-colors">
+          ← Spieler
+        </button>
+        <button onClick={onStart} disabled={!canStart}
+          className="flex-1 py-3 bg-rose-500 hover:bg-rose-600 text-white font-mono-game text-sm uppercase tracking-[0.2em] disabled:bg-stone-200 disabled:text-stone-400 transition-colors rounded-xl shadow-sm">
+          Runde starten →
+        </button>
+      </div>
     </div>
   );
 }
