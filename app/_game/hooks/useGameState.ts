@@ -5,7 +5,7 @@ import { PHASE, type Phase, type ImposterMode, type WordSource, type CurrentWord
 import { WORD_PACKS, getAllWordsFromCategories, type Category } from '../wordpacks';
 import { shuffle, pickRandom, pickWordAntiRepeat } from '../utils';
 import { useTimer, type Timer } from './useTimer';
-import { saveGame, loadGame, clearGame, type PersistedState } from '../storage';
+import { saveGame, loadGame, clearGame, isNativeApp, type PersistedState } from '../storage';
 import { recordRound, resetStats } from '../stats';
 
 export type GameState = {
@@ -110,7 +110,8 @@ export function useGameState(): GameState {
 
   const applyPersistedState = (s: PersistedState) => {
     setPlayers(s.players);
-    // Scores werden bewusst NICHT wiederhergestellt — pro Sitzung neu starten
+    // iOS: gespeicherte Scores wiederherstellen; Web: immer bei 0 starten
+    if (isNativeApp() && s.scores) setScores(s.scores);
     setRoundNumber(s.roundNumber);
     setWordSource(s.wordSource);
     setSelectedCategories(s.selectedCategories);
@@ -134,12 +135,12 @@ export function useGameState(): GameState {
   };
 
   const persistCurrentState = (
-    nextPlayers: string[], _nextScores: Scores, nextRound: number,
+    nextPlayers: string[], nextScores: Scores, nextRound: number,
     nextPlayedWords: Set<string>
   ) => {
     const state: PersistedState = {
       version: 1, savedAt: Date.now(),
-      players: nextPlayers, roundNumber: nextRound,
+      players: nextPlayers, scores: nextScores, roundNumber: nextRound,
       wordSource, selectedCategories, customWords, imposterMode, imposterCount,
       discussionMinutes, playedWords: [...nextPlayedWords],
     };
