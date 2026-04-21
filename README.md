@@ -1,16 +1,16 @@
-# Hochstapler
+# Blender
 
-Ein Partyspiel für 3–15 Spieler. Einer kennt das geheime Wort nicht — findet den Hochstapler, bevor er sich herausredet.
+Ein Partyspiel für 3–15 Spieler. Einer kennt das geheime Wort nicht — findet den Blender, bevor er sich herausredet.
 
 ## Spielprinzip
 
-Alle Spieler sehen das geheime Wort auf ihrem Gerät, außer dem **Hochstapler**. In der Diskussionsrunde beschreibt reihum jeder das Wort — zu konkret und du verrätst es dem Hochstapler, zu vage und du machst dich verdächtig. Dann wird abgestimmt. Der Hochstapler kann sich noch retten, wenn er das Wort errät.
+Alle Spieler sehen das geheime Wort auf ihrem Gerät, außer dem **Blender**. In der Diskussionsrunde beschreibt reihum jeder das Wort — zu konkret und du verrätst es dem Blender, zu vage und du machst dich verdächtig. Dann wird abgestimmt. Der Blender kann sich noch retten, wenn er das Wort errät.
 
 **Punktevergabe:**
-- Spieler fangen den Hochstapler → alle außer Hochstapler +1 Punkt
-- Hochstapler errät das Wort (auch wenn gefangen) → +1 Punkt extra
-- Hochstapler bleibt unentdeckt → +2 Punkte
-- Unentschieden beim Vote → Hochstapler +1 Punkt
+- Spieler fangen den Blender → alle außer Blender +1 Punkt
+- Blender errät das Wort (auch wenn gefangen) → +1 Punkt extra
+- Blender bleibt unentdeckt → +2 Punkte
+- Unentschieden beim Vote → Blender +1 Punkt
 
 ## Tech-Stack
 
@@ -68,7 +68,7 @@ app/
     wordpacks.ts        # Wortlisten mit Kategorien
     utils.ts            # shuffle, pickRandom, pickWordAntiRepeat
     storage.ts          # localStorage-Persistenz
-    HochstaplerApp.tsx  # Haupt-Orchestrator
+    BlenderApp.tsx  # Haupt-Orchestrator
   layout.tsx
   page.tsx
   globals.css

@@ -16,7 +16,7 @@ import { VoteScreen } from './screens/VoteScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { ScoreboardScreen } from './screens/ScoreboardScreen';
 
-const ONBOARDING_KEY = 'liar:onboarded';
+const ONBOARDING_KEY = 'blender:onboarded';
 
 export default function HochstaplerApp() {
   const g = useGameState();
@@ -67,7 +67,7 @@ export default function HochstaplerApp() {
         style={{ paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top) + 0.5rem))', paddingBottom: '1rem' }}
       >
         <h1 className="font-display text-3xl font-black italic tracking-tight leading-none">
-          Li<span className="text-rose-500">ar</span>
+          Bl<span className="text-rose-500">ender</span>
         </h1>
         {g.phase !== PHASE.SETUP && (
           <div className="text-right font-mono-game text-[10px] uppercase tracking-widest text-stone-400">

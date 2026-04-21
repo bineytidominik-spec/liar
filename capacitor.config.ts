@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.dominikbineyti.liar",
-  appName: "Liar",
+  appName: "Blender",
   webDir: "out",
   ios: {
     contentInset: "always",

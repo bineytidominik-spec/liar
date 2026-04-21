@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Liar — Party Game",
-  description: "A pass-and-play party game for 3–15 players. One person doesn't know the secret word. Find the liar.",
+  title: "Blender — Party Game",
+  description: "Ein Pass-and-Play-Partyspiel für 3–15 Spieler. Einer kennt das geheime Wort nicht — findet den Blender, bevor er sich herausredet.",
   manifest: "/manifest.json",
 };
 

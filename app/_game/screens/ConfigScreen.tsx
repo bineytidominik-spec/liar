@@ -137,9 +137,9 @@ export function ConfigScreen({
         )}
       </section>
 
-      {/* Anzahl Liars */}
+      {/* Anzahl Blender */}
       <section>
-        <div className="font-mono-game text-xs uppercase tracking-wider text-stone-500 mb-2">Anzahl Liars</div>
+        <div className="font-mono-game text-xs uppercase tracking-wider text-stone-500 mb-2">Anzahl Blender</div>
         <div className={`grid gap-2 ${imposterOptions.length <= 4 ? `grid-cols-${imposterOptions.length}` : 'grid-cols-4'}`}>
           {imposterOptions.map(n => (
             <button key={n} onClick={() => setImposterCount(n)}
@@ -150,14 +150,14 @@ export function ConfigScreen({
         </div>
         {maxImposters === 1 && (
           <div className="mt-1.5 text-[10px] font-mono-game text-stone-400">
-            Ab 6 Spielern sind mehrere Liars möglich.
+            Ab 6 Spielern sind mehrere Blender möglich.
           </div>
         )}
       </section>
 
-      {/* Was sieht der Liar */}
+      {/* Was sieht der Blender */}
       <section>
-        <div className="font-mono-game text-xs uppercase tracking-wider text-stone-500 mb-2">Was sieht der Liar?</div>
+        <div className="font-mono-game text-xs uppercase tracking-wider text-stone-500 mb-2">Was sieht der Blender?</div>
         <div className="grid grid-cols-2 gap-2">
           {([['blank', 'Nichts', 'Pures Bluffen'], ['similar', 'Assoziation', 'Subtiler Hinweis']] as const).map(([id, label, sub]) => (
             <button key={id} onClick={() => setImposterMode(id)}

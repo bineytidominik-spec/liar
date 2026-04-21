@@ -1,7 +1,7 @@
 # QA-Checkliste Phase 6
 
 - [x] 1. Sehr lange Namen — `break-words` + `max-w-full` auf Handoff/Vote/Result-Screens
-- [x] 2. Unentschieden im Voting — Patt ergibt 1 Punkt statt 2 für den Hochstapler
+- [x] 2. Unentschieden im Voting — Patt ergibt 1 Punkt statt 2 für den Blender
 - [x] 3. 3 Spieler + Assoziation-Modus — Warnung im Config-Screen
 - [x] 4. Zurück-Navigation — disabled-State während Handoff-Transition
 - [x] 5. Landscape iOS — Diskussions-Timer mit `text-[min(8vw,6rem)]` responsiv

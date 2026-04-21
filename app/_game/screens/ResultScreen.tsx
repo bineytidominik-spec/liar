@@ -24,7 +24,7 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
 
       <div className={`border-l-4 ${imposterCaught ? 'border-green-400' : 'border-rose-500'} pl-4 mb-6`}>
         <div className={`font-mono-game text-xs uppercase tracking-widest mb-1 ${imposterCaught ? 'text-green-600' : 'text-rose-600'}`}>
-          {imposterCaught ? 'Crew gewinnt' : `${multipleImposters ? 'Liars gewinnen' : 'Liar gewinnt'}`}
+          {imposterCaught ? 'Crew gewinnt' : `${multipleImposters ? 'Blender gewinnen' : 'Blender gewinnt'}`}
         </div>
         <div className="font-display text-3xl font-black italic text-stone-800">
           {imposterCaught ? 'Entlarvt.' : topVoted.length > 1 ? 'Keine Mehrheit.' : 'Unentdeckt.'}
@@ -34,7 +34,7 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
       <div className="bg-white shadow-sm border border-stone-100 p-5 mb-6 space-y-3 rounded-xl">
         <div>
           <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mb-1">
-            {multipleImposters ? 'Die Liars waren' : 'Der Liar war'}
+            {multipleImposters ? 'Die Blender waren' : 'Der Blender war'}
           </div>
           <div className="font-display text-2xl font-bold text-rose-600 break-words">
             {imposterNames.join(' & ')}
@@ -44,7 +44,7 @@ export function ResultScreen({ result, word, imposterMode, imposterGuess, setImp
           <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mb-1">Das Wort</div>
           <div className="font-display text-2xl font-bold italic text-stone-800">{word.word}</div>
           {imposterMode === 'similar' && (
-            <div className="text-xs text-stone-400 mt-1">Hinweis für {multipleImposters ? 'Liars' : 'Liar'}: <span className="text-stone-600">{word.association}</span></div>
+            <div className="text-xs text-stone-400 mt-1">Hinweis für {multipleImposters ? 'Blender' : 'Blender'}: <span className="text-stone-600">{word.association}</span></div>
           )}
         </div>
       </div>

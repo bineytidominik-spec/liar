@@ -7,7 +7,7 @@ const SLIDES = [
     phase: '01',
     title: 'Das Wort.',
     icon: '🃏',
-    body: 'Jeder sieht heimlich das Wort auf seinem Bildschirm — außer dem Liar. Der weiß gar nichts.',
+    body: 'Jeder sieht heimlich das Wort auf seinem Bildschirm — außer dem Blender. Der weiß gar nichts.',
     hint: 'Karten werden der Reihe nach weitergegeben.',
   },
   {
@@ -15,14 +15,14 @@ const SLIDES = [
     title: 'Die Diskussion.',
     icon: '💬',
     body: 'Reihum beschreibt jeder das Wort — ohne es zu nennen. Zu konkret verrät die Crew, zu vage macht verdächtig.',
-    hint: 'Der Liar muss mitbluffen.',
+    hint: 'Der Blender muss mitbluffen.',
   },
   {
     phase: '03',
     title: 'Die Abstimmung.',
     icon: '🗳️',
-    body: 'Wer ist der Liar? Jeder stimmt ab. Wird er entlarvt, gewinnt die Crew. Sonst gewinnt der Liar.',
-    hint: 'Beim Verlieren darf der Liar das Wort erraten — und Bonuspunkte holen.',
+    body: 'Wer ist der Blender? Jeder stimmt ab. Wird er entlarvt, gewinnt die Crew. Sonst gewinnt der Blender.',
+    hint: 'Beim Verlieren darf der Blender das Wort erraten — und Bonuspunkte holen.',
   },
 ];
 
@@ -48,7 +48,7 @@ export function OnboardingScreen({ onDone }: { onDone: () => void }) {
         {/* Title */}
         <div className="mb-8">
           <h1 className="font-display text-4xl font-black italic tracking-tight leading-none">
-            Li<span className="text-rose-500">ar</span>
+            Bl<span className="text-rose-500">ender</span>
           </h1>
           <p className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-400 mt-1">
             Das Partyspiel

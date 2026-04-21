@@ -1,5 +1,5 @@
 // ============================================================================
-// WORTDATENBANK - Hochstapler
+// WORTDATENBANK - Blender
 // 150 Wörter pro Kategorie, je 3 INDIREKTE Assoziationen.
 // Prinzip: Die Assoziation hilft dem Imposter zu bluffen, verrät aber NICHT
 // das Thema. Beispiel: Pizza → "Freitagabend", nicht "Italien".

@@ -1,7 +1,7 @@
 {
-  "name": "Liar",
-  "short_name": "Liar",
-  "description": "A pass-and-play party game for 3–15 players. Find the liar before they talk their way out.",
+  "name": "Blender",
+  "short_name": "Blender",
+  "description": "Ein Pass-and-Play-Partyspiel für 3–15 Spieler. Findet den Blender, bevor er sich herausredet.",
   "theme_color": "#0e0e1c",
   "background_color": "#0e0e1c",
   "display": "standalone",

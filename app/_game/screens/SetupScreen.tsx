@@ -65,7 +65,7 @@ export function SetupScreen({ onStart, onResume, savedGame }: {
               </div>
               <div>
                 <div className="font-display text-2xl font-black text-rose-500">{stats.liarWins}</div>
-                <div className="font-mono-game text-[9px] uppercase tracking-wider text-stone-400 mt-0.5">Liar-Siege</div>
+                <div className="font-mono-game text-[9px] uppercase tracking-wider text-stone-400 mt-0.5">Blender-Siege</div>
               </div>
             </div>
           </div>
