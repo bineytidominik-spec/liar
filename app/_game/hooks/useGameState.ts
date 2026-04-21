@@ -110,7 +110,7 @@ export function useGameState(): GameState {
 
   const applyPersistedState = (s: PersistedState) => {
     setPlayers(s.players);
-    setScores(s.scores);
+    // Scores werden bewusst NICHT wiederhergestellt — pro Sitzung neu starten
     setRoundNumber(s.roundNumber);
     setWordSource(s.wordSource);
     setSelectedCategories(s.selectedCategories);
@@ -134,12 +134,12 @@ export function useGameState(): GameState {
   };
 
   const persistCurrentState = (
-    nextPlayers: string[], nextScores: Scores, nextRound: number,
+    nextPlayers: string[], _nextScores: Scores, nextRound: number,
     nextPlayedWords: Set<string>
   ) => {
     const state: PersistedState = {
       version: 1, savedAt: Date.now(),
-      players: nextPlayers, scores: nextScores, roundNumber: nextRound,
+      players: nextPlayers, roundNumber: nextRound,
       wordSource, selectedCategories, customWords, imposterMode, imposterCount,
       discussionMinutes, playedWords: [...nextPlayedWords],
     };

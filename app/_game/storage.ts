@@ -1,4 +1,4 @@
-import type { ImposterMode, WordSource, CustomWord, Scores } from './types';
+import type { ImposterMode, WordSource, CustomWord } from './types';
 import type { Category } from './wordpacks';
 
 const STORAGE_KEY = 'hochstapler:game:v1';
@@ -7,7 +7,7 @@ export type PersistedState = {
   version: 1;
   savedAt: number;
   players: string[];
-  scores: Scores;
+  // scores werden NICHT persistiert — sie leben nur pro Sitzung im React-State
   roundNumber: number;
   wordSource: WordSource;
   selectedCategories: Category[];
