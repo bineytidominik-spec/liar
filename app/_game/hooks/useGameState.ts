@@ -202,7 +202,7 @@ export function useGameState(): GameState {
 
     setCurrentTurnIdx(0); setCardFlipped(false);
     setVotes({}); setCurrentVoterIdx(0); setImposterGuess('');
-    setPhase(PHASE.HANDOFF);
+    setPhase(PHASE.REVEAL);
   };
 
   const proceedFromHandoff = () => { setCardFlipped(false); setPhase(PHASE.REVEAL); };
@@ -216,7 +216,7 @@ export function useGameState(): GameState {
         setPhase(PHASE.DISCUSSION);
       } else {
         setCurrentTurnIdx(i => i + 1);
-        setPhase(PHASE.HANDOFF);
+        setPhase(PHASE.REVEAL);
       }
     }, 700);
   };
