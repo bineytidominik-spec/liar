@@ -9,7 +9,6 @@ import { SetupScreen } from './screens/SetupScreen';
 import { OnboardingScreen } from './screens/OnboardingScreen';
 import { PlayersScreen } from './screens/PlayersScreen';
 import { ConfigScreen } from './screens/ConfigScreen';
-import { HandoffScreen } from './screens/HandoffScreen';
 import { RevealScreen } from './screens/RevealScreen';
 import { DiscussionScreen } from './screens/DiscussionScreen';
 import { VoteScreen } from './screens/VoteScreen';
@@ -35,7 +34,7 @@ export default function HochstaplerApp() {
     setShowOnboarding(false);
   };
 
-  const activePhases: string[] = [PHASE.HANDOFF, PHASE.REVEAL, PHASE.DISCUSSION, PHASE.VOTE, PHASE.RESULT];
+  const activePhases: string[] = [PHASE.REVEAL, PHASE.DISCUSSION, PHASE.VOTE, PHASE.RESULT];
   const isInRound = activePhases.includes(g.phase);
 
   useEffect(() => {
@@ -114,14 +113,6 @@ export default function HochstaplerApp() {
             addPlayer={g.addPlayer}
             removePlayer={g.removePlayer}
             onContinue={g.goToConfig}
-          />
-        )}
-        {g.phase === PHASE.HANDOFF && (
-          <HandoffScreen
-            playerName={g.currentPlayer()}
-            turnIdx={g.currentTurnIdx}
-            total={g.players.length}
-            onContinue={g.proceedFromHandoff}
           />
         )}
         {g.phase === PHASE.REVEAL && g.currentWord && (
