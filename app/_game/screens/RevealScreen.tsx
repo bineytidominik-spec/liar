@@ -16,10 +16,11 @@ export function RevealScreen({ playerName, isImposter, word, imposterMode, flipp
 }) {
   const front = (
     <>
-      <div className="font-mono-game text-[10px] uppercase tracking-[0.4em] text-stone-400 mb-6">Tippen zum Aufdecken</div>
-      <div className="font-display text-7xl font-black text-rose-400 italic">?</div>
-      <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-400 mt-6 px-4 text-center">
-        nur {playerName} darf schauen
+      <div className="font-mono-game text-[10px] uppercase tracking-[0.4em] text-stone-400 mb-4">Für</div>
+      <div className="font-display text-3xl sm:text-4xl font-black italic text-stone-800 mb-6 px-4 text-center break-words">{playerName}</div>
+      <div className="font-display text-6xl font-black text-rose-400 italic">?</div>
+      <div className="font-mono-game text-[10px] uppercase tracking-[0.3em] text-stone-400 mt-6 px-4 text-center">
+        Tippen zum Aufdecken
       </div>
     </>
   );
@@ -27,7 +28,7 @@ export function RevealScreen({ playerName, isImposter, word, imposterMode, flipp
   const back = isImposter ? (
     <>
       <div className="font-mono-game text-[10px] uppercase tracking-[0.4em] text-rose-500 mb-6">Deine Rolle</div>
-      <div className="font-display text-5xl sm:text-6xl font-black italic text-rose-600 mb-6">LIAR</div>
+      <div className="font-display text-5xl sm:text-6xl font-black italic text-rose-600 mb-6">BLENDER</div>
       {imposterMode === 'similar' ? (
         <>
           <div className="font-mono-game text-[10px] uppercase tracking-widest text-stone-500 mb-2">Dein Hinweis</div>
